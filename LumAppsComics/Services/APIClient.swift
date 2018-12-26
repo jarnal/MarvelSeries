@@ -51,8 +51,13 @@ class APIClient: API {
     
     /// Returns the api token
     private var apiKey: APIKey {
-        let publicKey = environment.object(forKey: apiPublicTokenKey) as! String
-        let privateKey = environment.object(forKey: apiPrivateTokenKey) as! String
+        
+        guard
+            let publicKey = environment.object(forKey: apiPublicTokenKey) as? String,
+            publicKey.isEmpty == false,
+            let privateKey = environment.object(forKey: apiPrivateTokenKey) as? String,
+            privateKey.isEmpty == false
+        else { fatalError("You should put public and private key inside Environment.plist") }
         return APIKey(publicKey: publicKey, privateKey: privateKey)
     }
     
